@@ -2,3 +2,4 @@
 cherryEPG.tgz
 cherryepg/
 *.db
+node_modules/
