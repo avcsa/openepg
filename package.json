@@ -5,7 +5,7 @@
     "author": "Juan Martin Runge <jmrunge@gmail.com>",
     "contributors": [],
     "scripts": {
-        "test": "make coverage"
+        "test": "make test"
     },
     "main": "server",
     "repository": {
@@ -26,8 +26,7 @@
         "underscore"  : "1.6.x"
     },
     "devDependencies": {
-        "mocha"       : "1.7.x",
-        "node-uuid"   : "1.3.x"
+        "mocha"       : "1.7.x"
     },
     "bundledDependencies": [
     ],
