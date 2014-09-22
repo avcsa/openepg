@@ -1,3 +1,4 @@
 /.fuse_hidden*
 cherryEPG.tgz
 cherryepg/
+*.db
