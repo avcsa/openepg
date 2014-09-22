@@ -1,5 +1,7 @@
 CWD=$(shell pwd)
 
+.PHONY: test
+
 all: install serve
 
 install: cherryepg-init
@@ -73,3 +75,7 @@ cherryepg-carousel-install:
 	make test; \
 	make install 
 	
+test: 
+	@echo "Testing modules"
+	cd $(CWD); \
+	node_modules/mocha/bin/./mocha --reporter spec;
