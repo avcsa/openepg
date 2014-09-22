@@ -1,0 +1,5 @@
+{
+    "timezone"       : "-3:00",
+    "epg_db"         : "eit.db",
+    "scheduled_hours": 24
+}
