@@ -1,5 +1,10 @@
 {
     "timezone"       : "-3:00",
     "epg_db"         : "eit.db",
-    "scheduled_hours": 24
+    "pid"            : 18,
+    "scheduled_hours": 24,
+    "eit_interval"   : 30,
+    "carousel_db"    : "carousel.db",
+    "ts_host"        : "239.0.0.1",
+    "ts_port"        : 1234 
 }
