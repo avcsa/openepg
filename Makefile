@@ -23,9 +23,9 @@ cherryepg-download:
 	tar xvzf DVB-Carousel-0.22.tar.gz; \
 	tar xvzf DVB-Epg-0.50.tar.gz
 
-cherryepg-install: cherryepg-get cherryepg-mods-install cherryepg-deps-install
+cherryepg-install: cherryepg-get cherryepg-deps-install cherryepg-mods-install
 
-cherryepg-deps-download: digest-download sqlite-download
+cherryepg-deps-download: dbi-download digest-download sqlite-download
 
 digest-download: 
 	@echo "Downloading Digest-CRC"
@@ -33,17 +33,31 @@ digest-download:
 	curl -L http://search.cpan.org/CPAN/authors/id/O/OL/OLIMAUL/Digest-CRC-0.18.tar.gz -s -o Digest-CRC-0.18.tar.gz; \
 	tar xvzf Digest-CRC-0.18.tar.gz
 
+dbi-download: 
+	@echo "Downloading DBI"
+	cd $(CWD)/cherryepg/packages/; \
+	curl -L http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-1.631.tar.gz -s -o DBI-1.631.tar.gz; \
+	tar xvzf DBI-1.631.tar.gz
+
 sqlite-download: 
 	@echo "Downloading SQLite"
 	cd $(CWD)/cherryepg/packages/; \
 	curl -L http://search.cpan.org/CPAN/authors/id/I/IS/ISHIGAKI/DBD-SQLite-1.42.tar.gz -s -o DBD-SQLite-1.42.tar.gz; \
 	tar xvzf DBD-SQLite-1.42.tar.gz
 
-cherryepg-deps-install: digest-install sqlite-install
+cherryepg-deps-install: dbi-install digest-install sqlite-install
 
 digest-install:
 	@echo "Installing Digest-CRC"
 	cd $(CWD)/cherryepg/packages/Digest-CRC-0.18/; \
+	perl Makefile.PL; \
+	make; \
+	make test; \
+	make install
+
+dbi-install:
+	@echo "Installing DBI"
+	cd $(CWD)/cherryepg/packages/DBI-1.631.tar.gz/; \
 	perl Makefile.PL; \
 	make; \
 	make test; \
