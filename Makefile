@@ -30,13 +30,13 @@ cherryepg-deps-download: digest-download sqlite-download
 digest-download: 
 	@echo "Downloading Digest-CRC"
 	cd $(CWD)/cherryepg/packages/; \
-	curl http://search.cpan.org/CPAN/authors/id/O/OL/OLIMAUL/Digest-CRC-0.18.tar.gz -s -o Digest-CRC-0.18.tar.gz; \
+	curl -L http://search.cpan.org/CPAN/authors/id/O/OL/OLIMAUL/Digest-CRC-0.18.tar.gz -s -o Digest-CRC-0.18.tar.gz; \
 	tar xvzf Digest-CRC-0.18.tar.gz
 
 sqlite-download: 
 	@echo "Downloading SQLite"
 	cd $(CWD)/cherryepg/packages/; \
-	curl http://search.cpan.org/CPAN/authors/id/I/IS/ISHIGAKI/DBD-SQLite-1.42.tar.gz -s -o DBD-SQLite-1.42.tar.gz; \
+	curl -L http://search.cpan.org/CPAN/authors/id/I/IS/ISHIGAKI/DBD-SQLite-1.42.tar.gz -s -o DBD-SQLite-1.42.tar.gz; \
 	tar xvzf DBD-SQLite-1.42.tar.gz
 
 cherryepg-deps-install: digest-install sqlite-install
