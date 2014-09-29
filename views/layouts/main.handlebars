@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <title>Open EPG</title>
+    <link rel="stylesheet" type="text/css" href="css/openepg.css">
+  </head>
+  <body>
+    <div class="info message">
+        <h3>FYI, something just happened!</h3>
+        <p>This is just an info notification message.</p>
+    </div>
+
+    <div class="error message">
+        <h3>Ups, an error ocurred</h3>
+        <p>This is just an error notification message.</p>
+    </div>
+
+    <div class="warning message">
+        <h3>Wait, I must warn you!</h3>
+        <p>This is just a warning notification message.</p>
+    </div>
+
+    <div class="success message">
+        <h3>Congrats, you did it!</h3>
+        <p>This is just a success notification message.</p>
+    </div>
+    <div id="header">
+        <center><h1 class="openepg-title">OpenEPG</h1></center>
+        <div >
+            <ul id='menu-bar'>
+                <li><a href='#'><span>Home</span></a></li>
+                <li><a href='#listServices'><span>Service List</span></a></li>
+                <li><a href='#addService'><span>New Service</span></a></li>
+                <li><a href='#listEvents'><span>Event List</span></a></li>
+                <li><a href='#addEvent'><span>New Event</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <br/>
+    <div id="content">
+      {{{body}}}
+    </div>
+
+    <script type="text/javascript" src="js/openepg.js"></script>
+  </body>
+</html>
