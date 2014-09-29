@@ -5,7 +5,8 @@
     "author": "Juan Martin Runge <jmrunge@gmail.com>",
     "contributors": [],
     "scripts": {
-        "test": "make test"
+        "start": "make serve",
+        "test" : "make test"
     },
     "main": "server",
     "repository": {
