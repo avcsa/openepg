@@ -21,7 +21,7 @@
     "dependencies" : {
         "q"                  : "latest",
         "node-uuid"          : "latest",
-        "perl"               : "latest",
+        "perl"               : "git://github.com/avcsa/node-perl.git",
         "moment"             : "latest",
         "node-uuid"          : "latest",
         "underscore"         : "latest", 
