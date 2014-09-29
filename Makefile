@@ -57,7 +57,7 @@ digest-install:
 
 dbi-install:
 	@echo "Installing DBI"
-	cd $(CWD)/cherryepg/packages/DBI-1.631.tar.gz/; \
+	cd $(CWD)/cherryepg/packages/DBI-1.631/; \
 	perl Makefile.PL; \
 	make; \
 	make test; \
