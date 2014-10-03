@@ -12,7 +12,6 @@ module.exports = Controller = Marionette.Controller.extend({
     initialize: function() {
         App.core.vent.trigger('app:log', 'Controller: Initializing');
         window.App.views.servicesView = new ServicesView({ collection: window.App.data.services });
-        window.App.views.eventsView = new EventsView({ collection: window.App.data.events });
     },
 
     home: function() {
@@ -45,7 +44,7 @@ module.exports = Controller = Marionette.Controller.extend({
 
     listEvents: function() {
         App.core.vent.trigger('app:log', 'Controller: "List Events" route hit.');
-        var view = window.App.views.eventsView;
+        var view = new EventsView({ collection: window.App.data.services, eventsCol: window.App.data.events });
         this.renderView(view);
         window.App.router.navigate('#listEvents');
     },
