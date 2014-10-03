@@ -15313,7 +15313,6 @@ module.exports = Controller = Marionette.Controller.extend({
     initialize: function() {
         App.core.vent.trigger('app:log', 'Controller: Initializing');
         window.App.views.servicesView = new ServicesView({ collection: window.App.data.services });
-        window.App.views.eventsView = new EventsView({ collection: window.App.data.events });
     },
 
     home: function() {
@@ -15346,7 +15345,7 @@ module.exports = Controller = Marionette.Controller.extend({
 
     listEvents: function() {
         App.core.vent.trigger('app:log', 'Controller: "List Events" route hit.');
-        var view = window.App.views.eventsView;
+        var view = new EventsView({ collection: window.App.data.services, eventsCol: window.App.data.events });
         this.renderView(view);
         window.App.router.navigate('#listEvents');
     },
@@ -15495,7 +15494,7 @@ module.exports = AddView = Marionette.CompositeView.extend({
     }
 });
 
-},{"../../templates/add_event.hbs":17,"../../templates/service_item.hbs":24}],11:[function(require,module,exports){
+},{"../../templates/add_event.hbs":17,"../../templates/service_item.hbs":25}],11:[function(require,module,exports){
 var Marionette = require('backbone.marionette')
 ;
 
@@ -15600,6 +15599,39 @@ module.exports = EventDetailsView = Marionette.ItemView.extend({
 var Marionette = require('backbone.marionette')
 ;
 
+var ServiceView = Backbone.Marionette.ItemView.extend({
+    template: require('../../templates/service_item.hbs'),
+    tagName: "option",
+    onRender: function(){
+        this.$el.attr('value', this.model.get('serviceId'));
+    }
+});
+
+var ServicesView = Marionette.CompositeView.extend({
+    template: require('../../templates/events.hbs'),
+    itemViewContainer: "select",
+    itemView: ServiceView,
+    events: {
+        'change select': 'showEvents'
+    },
+    onRender: function() {
+        this.showEvents();
+    },
+    initialize: function(options) {
+        this.eventsCol = options.eventsCol;
+    },
+    showEvents: function() {
+        var id = this.$el.find('#service').val();
+        this.model = this.collection.get(id);
+        this.$el.find("#events").html("");
+        var events = this.eventsCol.where({serviceId: this.model.id});
+        if (events) {
+            this.subView = new EventsView({collection: new Backbone.Collection(events)});
+            this.subView.render().$el.appendTo(this.$el.find("#events"));
+        }
+    }
+});
+
 var itemView = Marionette.ItemView.extend({
     template: require('../../templates/event_row.hbs'),
     tagName: "tr",
@@ -15609,28 +15641,22 @@ var itemView = Marionette.ItemView.extend({
     events: {
         'click': 'showDetails'
     },
-
     showDetails: function() {
         window.App.core.vent.trigger('app:log', 'Events View: showDetails hit.');
         window.App.controller.eventDetails(this.model.id);
     }
 });
 
-module.exports = EventsView = Marionette.CompositeView.extend({
+var EventsView = Marionette.CompositeView.extend({
     tagName: "table",
-    template: require('../../templates/events.hbs'),
+    template: require('../../templates/events_table.hbs'),
     className: "EpgTable",
-    initialize: function() {
-        this.listenTo(this.collection, 'change', this.render);
-    },
-    appendHtml: function(collectionView, itemView){
-        collectionView.$("tbody").append(itemView.el);
-    },
+    itemViewContainer: "tbody",
     itemView: itemView
 });
 
-
-},{"../../templates/event_row.hbs":20,"../../templates/events.hbs":21}],14:[function(require,module,exports){
+module.exports =  ServicesView;
+},{"../../templates/event_row.hbs":20,"../../templates/events.hbs":21,"../../templates/events_table.hbs":22,"../../templates/service_item.hbs":25}],14:[function(require,module,exports){
 var Marionette = require('backbone.marionette')
 ;
 
@@ -15668,7 +15694,7 @@ module.exports = HomeView = Marionette.ItemView.extend({
 
     }
 });
-},{"../../templates/home.hbs":22}],15:[function(require,module,exports){
+},{"../../templates/home.hbs":23}],15:[function(require,module,exports){
 var Marionette = require('backbone.marionette')
 ;
 
@@ -15708,7 +15734,7 @@ module.exports = ServiceDetailsView = Marionette.ItemView.extend({
     }
 });
 
-},{"../../templates/service_details.hbs":23}],16:[function(require,module,exports){
+},{"../../templates/service_details.hbs":24}],16:[function(require,module,exports){
 var Marionette = require('backbone.marionette')
 ;
 
@@ -15742,7 +15768,7 @@ module.exports = ServicesView = Marionette.CompositeView.extend({
 });
 
 
-},{"../../templates/service_row.hbs":25,"../../templates/services.hbs":26}],17:[function(require,module,exports){
+},{"../../templates/service_row.hbs":26,"../../templates/services.hbs":27}],17:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15754,7 +15780,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return "<div class=\"form-title\"><h2>New Event</h2></div>\n<table><tr><td>\n<div class=\"form-title\">Service</div>\n<select class=\"form-field\" name=\"service\" id=\"service\"></select><br />\n<div class=\"form-title\">Start</div>\n<input class=\"form-field\" type=\"datetime-local\" step=\"1\" name=\"start\" id=\"start\" /><br />\n<div class=\"form-title\">Duration</div>\n<input class=\"form-field\" type=\"time\" step=\"1\" name=\"duration\" id=\"duration\" /><br />\n</td><td>\n<div class=\"form-title\">Title</div>\n<input class=\"form-field\" type=\"text\" name=\"title\" id=\"title\" /><br />\n<div class=\"form-title\">Synopsis</div>\n<textarea class=\"form-field\" cols=\"40\" rows=\"3\" name=\"synopsis\" id=\"synopsis\" /><br />\n</td></tr></table>\n<div class=\"submit-container\">\n    <a href=\"#\" class=\"submit-button\">Save Event</a>\n</div>";
   });
 
-},{"hbsfy/runtime":30}],18:[function(require,module,exports){
+},{"hbsfy/runtime":31}],18:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15766,7 +15792,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return "<div class=\"form-title\"><h2>New Service</h2></div>\n<table><tr><td>\n<!--div class=\"form-title\">PID</div>\n<input class=\"form-field\" type=\"number\" min=\"1\" name=\"pid\" id=\"pid\" /><br /-->\n<div class=\"form-title\">Signal ID</div>\n<input class=\"form-field\" type=\"number\" min=\"1\" name=\"signalId\" id=\"signalId\" /><br />\n<div class=\"form-title\">Original Network ID</div>\n<input class=\"form-field\" type=\"number\" min=\"1\" name=\"originalNetworkId\" id=\"originalNetworkId\" /><br />\n</td><td>\n<div class=\"form-title\">Transport Stream ID</div>\n<input class=\"form-field\" type=\"number\" min=\"1\" name=\"transportStreamId\" id=\"transportStreamId\" /><br />\n<div class=\"form-title\">Comment</div>\n<input class=\"form-field\" type=\"text\" name=\"comment\" id=\"comment\" /><br />\n</td></tr></table>\n<div class=\"submit-container\">\n    <a href=\"#\" class=\"submit-button\">Save Service</a>\n</div>";
   });
 
-},{"hbsfy/runtime":30}],19:[function(require,module,exports){
+},{"hbsfy/runtime":31}],19:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15777,7 +15803,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
   buffer += "<div class=\"form-title\"><h2>Event Details</h2></div>\n<table><tr><td>\n<div class=\"form-title\">Service</div>\n<input class=\"form-field\" type=\"text\" name=\"serviceId\" id=\"serviceId\" value=\""
     + escapeExpression(((stack1 = ((stack1 = depth0.service),stack1 == null || stack1 === false ? stack1 : stack1.comment)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\" readonly /><br /-->\n<div class=\"form-title\">Start</div>\n<input class=\"form-field\" type=\"datetime-local\" step=\"1\" name=\"start\" id=\"start\" value=\"";
+    + "\" readonly /><br >\n<div class=\"form-title\">Start</div>\n<input class=\"form-field\" type=\"datetime-local\" step=\"1\" name=\"start\" id=\"start\" value=\"";
   if (stack2 = helpers.startISO_8601) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.startISO_8601; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   buffer += escapeExpression(stack2)
@@ -15797,7 +15823,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return buffer;
   });
 
-},{"hbsfy/runtime":30}],20:[function(require,module,exports){
+},{"hbsfy/runtime":31}],20:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15828,7 +15854,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return buffer;
   });
 
-},{"hbsfy/runtime":30}],21:[function(require,module,exports){
+},{"hbsfy/runtime":31}],21:[function(require,module,exports){
+// hbsfy compiled Handlebars template
+var Handlebars = require('hbsfy/runtime');
+module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<center>\n    <table><tr><td>\n    <div class=\"form-title\">Service</div>\n    <select class=\"form-field\" name=\"service\" id=\"service\"></select><br />\n    </td></tr></table>\n</center>\n<div id=\"events\"></div>";
+  });
+
+},{"hbsfy/runtime":31}],22:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15840,7 +15878,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return "<thead>\n    <th>\n        Start\n    </th>\n    <th >\n        Duration\n    </th>\n    <th>\n        Service\n    </th>\n    <th>\n        Title\n    </th>\n    <th>\n        Synopsis\n    </th>\n</thead>\n<tbody>\n</tbody>";
   });
 
-},{"hbsfy/runtime":30}],22:[function(require,module,exports){
+},{"hbsfy/runtime":31}],23:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15869,7 +15907,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return buffer;
   });
 
-},{"hbsfy/runtime":30}],23:[function(require,module,exports){
+},{"hbsfy/runtime":31}],24:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15902,7 +15940,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return buffer;
   });
 
-},{"hbsfy/runtime":30}],24:[function(require,module,exports){
+},{"hbsfy/runtime":31}],25:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15916,7 +15954,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return escapeExpression(stack1);
   });
 
-},{"hbsfy/runtime":30}],25:[function(require,module,exports){
+},{"hbsfy/runtime":31}],26:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15949,7 +15987,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return buffer;
   });
 
-},{"hbsfy/runtime":30}],26:[function(require,module,exports){
+},{"hbsfy/runtime":31}],27:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15961,7 +15999,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return "<thead>\n    <th>\n        PID\n    </th>\n    <th >\n        Singal ID\n    </th>\n    <th>\n        Original Network ID\n    </th>\n    <th>\n        Transport Stream ID\n    </th>\n    <th>\n        Comment\n    </th>\n</thead>\n<tbody>\n</tbody>\n            ";
   });
 
-},{"hbsfy/runtime":30}],27:[function(require,module,exports){
+},{"hbsfy/runtime":31}],28:[function(require,module,exports){
 /*jshint eqnull: true */
 
 module.exports.create = function() {
@@ -16129,7 +16167,7 @@ Handlebars.registerHelper('log', function(context, options) {
 return Handlebars;
 };
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 exports.attach = function(Handlebars) {
 
 // BEGIN(BROWSER)
@@ -16237,7 +16275,7 @@ return Handlebars;
 
 };
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 exports.attach = function(Handlebars) {
 
 var toString = Object.prototype.toString;
@@ -16322,7 +16360,7 @@ Handlebars.Utils = {
 return Handlebars;
 };
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 var hbsBase = require("handlebars/lib/handlebars/base");
 var hbsUtils = require("handlebars/lib/handlebars/utils");
 var hbsRuntime = require("handlebars/lib/handlebars/runtime");
@@ -16333,5 +16371,5 @@ hbsRuntime.attach(Handlebars);
 
 module.exports = Handlebars;
 
-},{"handlebars/lib/handlebars/base":27,"handlebars/lib/handlebars/runtime":28,"handlebars/lib/handlebars/utils":29}]},{},[5])
+},{"handlebars/lib/handlebars/base":28,"handlebars/lib/handlebars/runtime":29,"handlebars/lib/handlebars/utils":30}]},{},[5])
 ;
