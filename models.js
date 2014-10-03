@@ -13,10 +13,7 @@ var Service = {
                 if (filter.serviceId)
                     data = _.find(data, function(service) {return service.serviceId === parseInt(filter.serviceId);});
             }
-            if (data.length === 0)
-                callback(new Error('No services found'));
-            else
-                callback(undefined, data);
+            callback(undefined, data);
         } catch(e) {
             console.error("Error finding services", e.message);
             callback(e);
@@ -80,10 +77,7 @@ var Event = {
                 data = epg.listEvents(filter);
             }
             data = _.map(data, Event.addService);
-            if (data.length === 0)
-                callback(new Error('No events found'));
-            else
-                callback(undefined, data);
+            callback(undefined, data);
         } catch(e) {
             console.error("Error finding events", e.message);
             callback(e);
