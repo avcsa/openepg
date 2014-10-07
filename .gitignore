@@ -5,3 +5,5 @@ cherryepg/
 node_modules/
 .netbeans.xml
 build/
+perl/
+uninstall.pl
