@@ -5,8 +5,9 @@ CWD=$(shell pwd)
 perl:
 	mkdir $(CWD)/perl
 	
-perl/local-lib-2.000014: perl/local-lib-2.000014.tar.gz
+perl/local-lib-2.000014:
 	cd $(CWD)/perl/; \
+	curl -L http://search.cpan.org/CPAN/authors/id/H/HA/HAARG/local-lib-2.000014.tar.gz -s -o local-lib-2.000014.tar.gz; \
 	tar xvzf local-lib-2.000014.tar.gz; \
 	cd $(CWD)/perl/local-lib-2.000014/; \
 	perl Makefile.PL --bootstrap=$(CWD)/perl/lib/; \
@@ -14,15 +15,12 @@ perl/local-lib-2.000014: perl/local-lib-2.000014.tar.gz
 	make test; \
 	make install; 
 	
-perl/local-lib-2.000014.tar.gz: perl
-	cd $(CWD)/perl/; \
-	curl -L http://search.cpan.org/CPAN/authors/id/H/HA/HAARG/local-lib-2.000014.tar.gz -s -o local-lib-2.000014.tar.gz; 
-	
-perl/Digest-CRC-0.18: perl/Digest-CRC-0.18.tar.gz
+perl/Digest-CRC-0.18:
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
 	cd $(CWD)/perl/; \
+	curl -L http://search.cpan.org/CPAN/authors/id/O/OL/OLIMAUL/Digest-CRC-0.18.tar.gz -s -o Digest-CRC-0.18.tar.gz; \
 	tar xvzf Digest-CRC-0.18.tar.gz; \
 	cd $(CWD)/perl/Digest-CRC-0.18/; \
 	perl Makefile.PL INSTALL_BASE=$(CWD)/perl/lib/; \
@@ -30,15 +28,12 @@ perl/Digest-CRC-0.18: perl/Digest-CRC-0.18.tar.gz
 	make test; \
 	make install
 	
-perl/Digest-CRC-0.18.tar.gz: perl/local-lib-2.000014
-	cd $(CWD)/perl/; \
-	curl -L http://search.cpan.org/CPAN/authors/id/O/OL/OLIMAUL/Digest-CRC-0.18.tar.gz -s -o Digest-CRC-0.18.tar.gz; 
-	
-perl/DBD-SQLite-1.42: perl/DBD-SQLite-1.42.tar.gz
+perl/DBD-SQLite-1.42: 
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
 	cd $(CWD)/perl/; \
+	curl -L http://search.cpan.org/CPAN/authors/id/I/IS/ISHIGAKI/DBD-SQLite-1.42.tar.gz -s -o DBD-SQLite-1.42.tar.gz; \
 	tar xvzf DBD-SQLite-1.42.tar.gz; \
 	cd $(CWD)/perl/DBD-SQLite-1.42/; \
 	perl Makefile.PL INSTALL_BASE=$(CWD)/perl/lib/; \
@@ -46,15 +41,12 @@ perl/DBD-SQLite-1.42: perl/DBD-SQLite-1.42.tar.gz
 	make test; \
 	make install
 	
-perl/DBD-SQLite-1.42.tar.gz: perl/Digest-CRC-0.18
-	cd $(CWD)/perl/; \
-	curl -L http://search.cpan.org/CPAN/authors/id/I/IS/ISHIGAKI/DBD-SQLite-1.42.tar.gz -s -o DBD-SQLite-1.42.tar.gz; 
-	
-perl/DVB-Carousel-0.22: perl/DVB-Carousel-0.22.tar.gz
+perl/DVB-Carousel-0.22:
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
 	cd $(CWD)/perl/; \
+	curl -L http://search.cpan.org/CPAN/authors/id/N/NA/NABOJ/DVB-Carousel-0.22.tar.gz -s -o DVB-Carousel-0.22.tar.gz; \
 	tar xvzf DVB-Carousel-0.22.tar.gz; \
 	cd $(CWD)/perl/DVB-Carousel-0.22/; \
 	perl Makefile.PL INSTALL_BASE=$(CWD)/perl/lib/; \
@@ -62,15 +54,12 @@ perl/DVB-Carousel-0.22: perl/DVB-Carousel-0.22.tar.gz
 	make test; \
 	make install
 	
-perl/DVB-Carousel-0.22.tar.gz: perl/DBD-SQLite-1.42
-	cd $(CWD)/perl/; \
-	curl -L http://search.cpan.org/CPAN/authors/id/N/NA/NABOJ/DVB-Carousel-0.22.tar.gz -s -o DVB-Carousel-0.22.tar.gz; 
-	
-perl/DVB-Epg-0.51: perl/DVB-Epg-0.51.tar.gz
+perl/DVB-Epg-0.51:
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
 	cd $(CWD)/perl/; \
+	curl -L http://search.cpan.org/CPAN/authors/id/N/NA/NABOJ/DVB-Epg-0.51.tar.gz -s -o DVB-Epg-0.51.tar.gz; \
 	tar xvzf DVB-Epg-0.51.tar.gz; \
 	cd $(CWD)/perl/DVB-Epg-0.51/; \
 	perl Makefile.PL INSTALL_BASE=$(CWD)/perl/lib/; \
@@ -78,11 +67,7 @@ perl/DVB-Epg-0.51: perl/DVB-Epg-0.51.tar.gz
 	make test; \
 	make install
 	
-perl/DVB-Epg-0.51.tar.gz: perl/DVB-Carousel-0.22
-	cd $(CWD)/perl/; \
-	curl -L http://search.cpan.org/CPAN/authors/id/N/NA/NABOJ/DVB-Epg-0.51.tar.gz -s -o DVB-Epg-0.51.tar.gz; 
-	
-perl-install: perl/DVB-Epg-0.51
+perl-install: perl perl/local-lib-2.000014 perl/Digest-CRC-0.18 perl/DBD-SQLite-1.42 perl/DVB-Carousel-0.22 perl/DVB-Epg-0.51
 	
 npm-install-dev: 
 	npm install --verbose
@@ -121,3 +106,15 @@ serve:
 	set -e; \
 	. ./perl-vars.sh; \
 	node server.js;
+
+sorete: perl/lib1
+	echo "Hola mundo"
+	
+perl/lib1: perl/lib
+	echo "Jamas deberias haber llegado aca"
+
+perl/lib: perl/lib/bin
+	echo "sos un puto"
+	
+perl/lib/bin:
+	echo "mierdaaaaaaaaaa"
