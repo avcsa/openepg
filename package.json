@@ -16,7 +16,8 @@
     "keywords": [
         "server",
         "epg",
-        "dvb"
+        "dvb",
+        "eit"
     ],
     "dependencies" : {
         "q"                  : "latest",
