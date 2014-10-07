@@ -20,7 +20,9 @@ module.exports = function(grunt) {
             dev: {
                 src: ['build/app.js', 'build/<%= pkg.name %>.css', 'build/<%= pkg.name %>.js']
             },
-            prod: ['dist']
+            all: ['build', 'public', 'spec/requires', 'bower_components'],
+            prod: ['build'],
+            dist: ['build', 'bower_components']
         },
 
         browserify: {
@@ -112,7 +114,7 @@ module.exports = function(grunt) {
             prod: {
                 files: [{
                     src: ['client/img/*'],
-                    dest: 'dist/img/'
+                    dest: 'public/img/'
                 }]
             }
         },
@@ -121,7 +123,7 @@ module.exports = function(grunt) {
         cssmin: {
             minify: {
                 src: ['build/<%= pkg.name %>.css'],
-                dest: 'dist/css/<%= pkg.name %>.css'
+                dest: 'public/css/<%= pkg.name %>.css'
             }
         },
 
@@ -134,7 +136,7 @@ module.exports = function(grunt) {
                 },
                 files: [{
                     src: 'build/<%= pkg.name %>.js',
-                    dest: 'dist/js/<%= pkg.name %>.js'
+                    dest: 'public/js/<%= pkg.name %>.js'
                 }]
             }
         },
@@ -189,7 +191,7 @@ module.exports = function(grunt) {
             },
 
             server: {
-                src: ['spec/spechelper.js', 'spec/**/*.test.js']
+                src: ['spec/spechelper.js', 'spec/**/*.test.js', 'test/*.js']
             }
         },
 
@@ -224,10 +226,12 @@ module.exports = function(grunt) {
 
         jshint: {
             options: {
-                laxcomma: true
+                laxcomma: true,
+                laxbreak: true,
+                "-W021": true
             },
-            all: ['Gruntfile.js', 'client/src/**/*.js', 'client/spec/**/*.js'],
-            dev: ['client/src/**/*.js'],
+            all: ['*.js', 'lib/*.js', 'client/src/**/*.js', 'client/spec/**/*.js'],
+            dev: ['*.js', 'lib/*.js', 'client/src/**/*.js'],
             test: ['client/spec/**/*.js']
         }
     });
