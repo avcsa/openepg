@@ -20,18 +20,14 @@
         "eit"
     ],
     "dependencies" : {
-        "q"                  : "latest",
-        "node-uuid"          : "latest",
         "perl"               : "latest",
         "moment"             : "latest",
-        "node-uuid"          : "latest",
         "underscore"         : "latest", 
         "express"            : "~3.4.2",
         "handlebars-runtime" : "~1.0.12",
         "express3-handlebars": "~0.5.0"
     },
     "devDependencies": {
-        "mocha"                     : "latest", 
         "bower"                     : "~1.2.8",
         "grunt"                     : "~0.4.1",
         "grunt-contrib-concat"      : "~0.3.0",
