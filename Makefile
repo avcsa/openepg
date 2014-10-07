@@ -2,94 +2,122 @@ CWD=$(shell pwd)
 
 .PHONY: test
 
-all: install serve
-
-install: cherryepg-init
-
-cherryepg-init: cherryepg-clean cherryepg-install
-
-cherryepg-clean:
-	@echo "Cleaning cherryepg"
-	rm -rf cherryepg
-	rm -f cherryEPG.tgz
-
-cherryepg-get: cherryepg-download cherryepg-deps-download
-
-cherryepg-download:
-	@echo "Downloading cherryepg"
-	curl http://epg.cherryhill.eu/download/cherryEPG.tgz -s -o cherryEPG.tgz; \
-	tar xvzf cherryEPG.tgz; \
-	cd $(CWD)/cherryepg/packages/; \
-	tar xvzf DVB-Carousel-0.22.tar.gz; \
-	tar xvzf DVB-Epg-0.50.tar.gz
-
-cherryepg-install: cherryepg-get cherryepg-deps-install cherryepg-mods-install
-
-cherryepg-deps-download: dbi-download digest-download sqlite-download
-
-digest-download: 
-	@echo "Downloading Digest-CRC"
-	cd $(CWD)/cherryepg/packages/; \
-	curl -L http://search.cpan.org/CPAN/authors/id/O/OL/OLIMAUL/Digest-CRC-0.18.tar.gz -s -o Digest-CRC-0.18.tar.gz; \
-	tar xvzf Digest-CRC-0.18.tar.gz
-
-dbi-download: 
-	@echo "Downloading DBI"
-	cd $(CWD)/cherryepg/packages/; \
-	curl -L http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-1.631.tar.gz -s -o DBI-1.631.tar.gz; \
-	tar xvzf DBI-1.631.tar.gz
-
-sqlite-download: 
-	@echo "Downloading SQLite"
-	cd $(CWD)/cherryepg/packages/; \
-	curl -L http://search.cpan.org/CPAN/authors/id/I/IS/ISHIGAKI/DBD-SQLite-1.42.tar.gz -s -o DBD-SQLite-1.42.tar.gz; \
-	tar xvzf DBD-SQLite-1.42.tar.gz
-
-cherryepg-deps-install: dbi-install digest-install sqlite-install
-
-digest-install:
-	@echo "Installing Digest-CRC"
-	cd $(CWD)/cherryepg/packages/Digest-CRC-0.18/; \
-	perl Makefile.PL; \
-	make; \
-	make test; \
-	make install
-
-dbi-install:
-	@echo "Installing DBI"
-	cd $(CWD)/cherryepg/packages/DBI-1.631/; \
-	perl Makefile.PL; \
-	make; \
-	make test; \
-	make install
-
-sqlite-install:
-	@echo "Installing SQLite"
-	cd $(CWD)/cherryepg/packages/DBD-SQLite-1.42/; \
-	perl Makefile.PL; \
-	make; \
-	make test; \
-	make install
-
-cherryepg-mods-install: cherryepg-carousel-install cherryepg-epg-install
-
-cherryepg-epg-install:
-	@echo "Installing DVB-Epg"
-	cd $(CWD)/cherryepg/packages/DVB-Epg-0.50/; \
-	perl Makefile.PL; \
-	make; \
-	make test; \
-	make install
-
-cherryepg-carousel-install:
-	@echo "Installing DVB-Carousel"
-	cd $(CWD)/cherryepg/packages/DVB-Carousel-0.22/; \
-	perl Makefile.PL; \
-	make; \
-	make test; \
-	make install 
+perl:
+	mkdir $(CWD)/perl
 	
-test: 
-	@echo "Testing modules"
+perl/local-lib-2.000014: perl/local-lib-2.000014.tar.gz
+	cd $(CWD)/perl/; \
+	tar xvzf local-lib-2.000014.tar.gz; \
+	cd $(CWD)/perl/local-lib-2.000014/; \
+	perl Makefile.PL --bootstrap=$(CWD)/perl/lib/; \
+	make; \
+	make test; \
+	make install; 
+	
+perl/local-lib-2.000014.tar.gz: perl
+	cd $(CWD)/perl/; \
+	curl -L http://search.cpan.org/CPAN/authors/id/H/HA/HAARG/local-lib-2.000014.tar.gz -s -o local-lib-2.000014.tar.gz; 
+	
+perl/Digest-CRC-0.18: perl/Digest-CRC-0.18.tar.gz
 	cd $(CWD); \
-	node_modules/mocha/bin/./mocha --reporter spec;
+	set -e; \
+	. ./perl-vars.sh; \
+	cd $(CWD)/perl/; \
+	tar xvzf Digest-CRC-0.18.tar.gz; \
+	cd $(CWD)/perl/Digest-CRC-0.18/; \
+	perl Makefile.PL INSTALL_BASE=$(CWD)/perl/lib/; \
+	make; \
+	make test; \
+	make install
+	
+perl/Digest-CRC-0.18.tar.gz: perl/local-lib-2.000014
+	cd $(CWD)/perl/; \
+	curl -L http://search.cpan.org/CPAN/authors/id/O/OL/OLIMAUL/Digest-CRC-0.18.tar.gz -s -o Digest-CRC-0.18.tar.gz; 
+	
+perl/DBD-SQLite-1.42: perl/DBD-SQLite-1.42.tar.gz
+	cd $(CWD); \
+	set -e; \
+	. ./perl-vars.sh; \
+	cd $(CWD)/perl/; \
+	tar xvzf DBD-SQLite-1.42.tar.gz; \
+	cd $(CWD)/perl/DBD-SQLite-1.42/; \
+	perl Makefile.PL INSTALL_BASE=$(CWD)/perl/lib/; \
+	make; \
+	make test; \
+	make install
+	
+perl/DBD-SQLite-1.42.tar.gz: perl/Digest-CRC-0.18
+	cd $(CWD)/perl/; \
+	curl -L http://search.cpan.org/CPAN/authors/id/I/IS/ISHIGAKI/DBD-SQLite-1.42.tar.gz -s -o DBD-SQLite-1.42.tar.gz; 
+	
+perl/DVB-Carousel-0.22: perl/DVB-Carousel-0.22.tar.gz
+	cd $(CWD); \
+	set -e; \
+	. ./perl-vars.sh; \
+	cd $(CWD)/perl/; \
+	tar xvzf DVB-Carousel-0.22.tar.gz; \
+	cd $(CWD)/perl/DVB-Carousel-0.22/; \
+	perl Makefile.PL INSTALL_BASE=$(CWD)/perl/lib/; \
+	make; \
+	make test; \
+	make install
+	
+perl/DVB-Carousel-0.22.tar.gz: perl/DBD-SQLite-1.42
+	cd $(CWD)/perl/; \
+	curl -L http://search.cpan.org/CPAN/authors/id/N/NA/NABOJ/DVB-Carousel-0.22.tar.gz -s -o DVB-Carousel-0.22.tar.gz; 
+	
+perl/DVB-Epg-0.51: perl/DVB-Epg-0.51.tar.gz
+	cd $(CWD); \
+	set -e; \
+	. ./perl-vars.sh; \
+	cd $(CWD)/perl/; \
+	tar xvzf DVB-Epg-0.51.tar.gz; \
+	cd $(CWD)/perl/DVB-Epg-0.51/; \
+	perl Makefile.PL INSTALL_BASE=$(CWD)/perl/lib/; \
+	make; \
+	make test; \
+	make install
+	
+perl/DVB-Epg-0.51.tar.gz: perl/DVB-Carousel-0.22
+	cd $(CWD)/perl/; \
+	curl -L http://search.cpan.org/CPAN/authors/id/N/NA/NABOJ/DVB-Epg-0.51.tar.gz -s -o DVB-Epg-0.51.tar.gz; 
+	
+perl-install: perl/DVB-Epg-0.51
+	
+npm-install-dev: 
+	npm install --verbose
+
+npm-install-prod: 
+	npm install --production
+
+install-dev: perl-install npm-install-dev init-dev
+	
+install: perl-install npm-install-prod
+	
+remove-perl:
+	rm -rf $(CWD)/perl
+	
+remove-npm:
+	rm -rf node_modules
+	
+remove-grunt:
+	node_modules/grunt-cli/bin/grunt clean:all
+	
+uninstall: remove-perl remove-grunt clean-npm
+	
+init-dev:
+	node_modules/grunt-cli/bin/grunt init:dev
+
+build-dev:
+	node_modules/grunt-cli/bin/grunt build:dev
+	
+build-prod:
+	node_modules/grunt-cli/bin/grunt build:prod
+	
+serve-dev: build-dev serve
+
+serve:
+	cd $(CWD); \
+	set -e; \
+	. ./perl-vars.sh; \
+	node server.js;
