@@ -105,16 +105,5 @@ serve:
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
-	node server.js;
+	node server.js& node carousel_server.js;
 
-sorete: perl/lib1
-	echo "Hola mundo"
-	
-perl/lib1: perl/lib
-	echo "Jamas deberias haber llegado aca"
-
-perl/lib: perl/lib/bin
-	echo "sos un puto"
-	
-perl/lib/bin:
-	echo "mierdaaaaaaaaaa"
