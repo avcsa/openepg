@@ -1,10 +1,28 @@
 <div class="form-title"><h2>Server Status</h2></div>
 <table><tr><td>
-<div class="form-title">Started: {{serverStarted}}</div>
-<div class="form-title">Last Update Attempt: {{lastUpdateAttempt}}</div>
+<div class="form-title">GUI Started:</div></td><td>{{guiStarted}}
 </td><td>
-<div class="form-title">Last EIT updated: {{lastEitUpdated}}</div>
-<div class="form-title">Last Carousel updated: {{lastCarouselUpdated}}</div>
+<div class="form-title">GUI Status:</div></td><td>{{guiStatus}}
+</td></tr><tr><td>
+<div class="form-title">Carousel Started:</div></td><td>{{carouselStarted}}
+</td><td>
+<div class="form-title">Carousel Status:</div></td><td>{{carouselStatus}}
+</td></tr><tr><td>
+<div class="form-title">Importer Started:</div></td><td>{{importerStarted}}
+</td><td>
+<div class="form-title">Importer Status:</div></td><td>{{importerStatus}}
+</td></tr><tr><td>
+<div class="form-title">Importer Last Run:</div></td><td>{{importerLastRun}}
+</td><td>
+<div class="form-title">Importer Next Run:</div></td><td>{{importerNextRun}}
+</td></tr><tr><td>
+<div class="form-title">EIT Updater Started:</div></td><td>{{eitUpdaterStarted}}
+</td><td>
+<div class="form-title">EIT Updater Status:</div></td><td>{{eitUpdaterStatus}}
+</td></tr><tr><td>
+<div class="form-title">EIT Updater Last Run:</div></td><td>{{eitUpdaterLastRun}}
+</td><td>
+<div class="form-title">EIT Updater Next Run:</div></td><td>{{eitUpdaterNextRun}}
 </td></tr></table>
 <div class="submit-container">
     <a href="#" class="submit-button">Update EIT</a>
