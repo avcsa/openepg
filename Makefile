@@ -113,3 +113,9 @@ serve_carousel:
 	. ./perl-vars.sh; \
 	node carousel_server.js;
 
+serve_importer:
+	cd $(CWD); \
+	set -e; \
+	. ./perl-vars.sh; \
+	node importer_server.js;
+
