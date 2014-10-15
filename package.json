@@ -25,7 +25,10 @@
         "underscore"         : "latest", 
         "express"            : "~3.4.2",
         "handlebars-runtime" : "~1.0.12",
-        "express3-handlebars": "~0.5.0"
+        "express3-handlebars": "~0.5.0",
+        "jsftp"              : "latest",
+        "iconv-lite"         : "latest",
+        "dnode"              : "latest"
     },
     "devDependencies": {
         "grunt-cli"                 : "latest", 
