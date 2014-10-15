@@ -21,11 +21,13 @@ var Service = {
     }, 
     "add": function(service, callback) {
         try {
-            var services = epg.listServices();
-            if (services.length === 0)
-                service.serviceId = 1;
-            else
-                service.serviceId = _.max(services, function(serv) {return serv.serviceId;}).serviceId + 1;
+            if (!service.serviceId) {
+                var services = epg.listServices();
+                if (services.length === 0)
+                    service.serviceId = 1;
+                else
+                    service.serviceId = _.max(services, function(serv) {return serv.serviceId;}).serviceId + 1;
+            }
 
             epg.addService(service);
 
