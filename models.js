@@ -1,9 +1,12 @@
-var Epg  = require('./lib/epg')
-,   conf = require('./conf')
-,   epg  = new Epg(conf)
-,   _    = require('underscore')
+var Epg    = require('./lib/epg')
+,   conf   = require('./conf')
+,   epg    = new Epg(conf)
+,   _      = require('underscore')
 ,   moment = require('moment')
+,   status = require("./status_client")('gui')
 ;
+
+status.set('status', 'running');
 
 var Service = {
     "find": function(filter, callback) {
@@ -154,14 +157,24 @@ var Server = {
         }
     },
     get: function(callback) {
-        var server = {
-            id: 1,
-            lastEitUpdated : this.lastEitUpdated,
-            lastCarouselUpdated: this.lastCarouselUpdated,
-            lastUpdateAttempt: this.lastUpdateAttempt, 
-            serverStarted: this.serverStarted
-        };
-        callback(undefined, server);
+        status.getStatus(function(st) {
+            var server = {
+                id: 1,
+                guiStarted : moment(st.gui.started).fromNow(), //moment(st.gui.started).format("YYYY-MM-DD HH:mm:ss"),
+                guiStatus : st.gui.status,
+                carouselStarted : moment(st.carousel.started).fromNow(), //moment(st.carousel.started).format("YYYY-MM-DD HH:mm:ss"),
+                carouselStatus : st.carousel.status,
+                importerStarted : moment(st.importer.started).fromNow(), //moment(st.importer.started).format("YYYY-MM-DD HH:mm:ss"),
+                importerStatus : st.importer.status,
+                importerLastRun : moment(st.importer.lastRun).fromNow(), //moment(st.importer.lastRun).format("YYYY-MM-DD HH:mm:ss"),
+                importerNextRun : moment(st.importer.nextRun).from(moment()), //moment(st.importer.nextRun).format("YYYY-MM-DD HH:mm:ss"),
+                eitUpdaterStarted : moment(st.eitUpdate.started).fromNow(), //moment(st.eitUpdate.started).format("YYYY-MM-DD HH:mm:ss"),
+                eitUpdaterStatus : st.eitUpdate.status,
+                eitUpdaterLastRun : moment(st.eitUpdate.lastRun).fromNow(), //moment(st.eitUpdate.lastRun).format("YYYY-MM-DD HH:mm:ss"),
+                eitUpdaterNextRun : moment(st.eitUpdate.nextRun).from(moment()) //moment(st.eitUpdate.nextRun).format("YYYY-MM-DD HH:mm:ss"),
+            };
+            callback(undefined, server);
+        });
     }
 };
 module.exports = {
