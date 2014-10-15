@@ -8,7 +8,11 @@
        exec 2>&1 make NODE=/usr/bin/node serve_status 1>/home/pi/status.out;
        ;;
      stop)  
-       kill -9 -`cat /home/pi/status.pid`;
+       GPID=$(cat /home/pi/status.pid);
+       for PID in $(pstree -pn $GPID |grep -o "([[:digit:]]*)" |grep -o "[[:digit:]]*")
+       do
+           kill -9 $PID;
+       done;
        rm /home/pi/status.pid;
        ;;
      *)  

@@ -26,7 +26,7 @@ set daemon 1            # check services at 2-minute intervals
 ## a standalone log file instead, specify the full path to the log file
 #
 # set logfile syslog facility log_daemon                       
-  set logfile /var/log/monit.log
+  set logfile /home/pi/monit.log
 #
 #
 ## Set the location of the Monit id file which stores the unique id for the
@@ -34,7 +34,7 @@ set daemon 1            # check services at 2-minute intervals
 ## default the file is placed in $HOME/.monit.id.
 #
 # set idfile /var/.monit.id
-  set idfile /var/lib/monit/id
+# set idfile /var/lib/monit/id
 #
 ## Set the location of the Monit state file which saves monitoring states
 ## on each cycle. By default the file is placed in $HOME/.monit.state. If
@@ -42,7 +42,7 @@ set daemon 1            # check services at 2-minute intervals
 ## the monitoring state across reboots. If it is on temporary filesystem, the
 ## state will be lost on reboot which may be convenient in some situations.
 #
-  set statefile /var/lib/monit/state
+#  set statefile /var/lib/monit/state
 #
 ## Set the list of mail servers for alert delivery. Multiple servers may be 
 ## specified using a comma separator. If the first mail server fails, Monit 
@@ -61,9 +61,9 @@ set daemon 1            # check services at 2-minute intervals
 ## size using the SLOTS option (if omitted, the queue is limited by space 
 ## available in the back end filesystem).
 #
-  set eventqueue
-      basedir /var/lib/monit/events # set the base directory where events will be stored
-      slots 100                     # optionally limit the queue size
+#  set eventqueue
+#      basedir /var/lib/monit/events # set the base directory where events will be stored
+#      slots 100                     # optionally limit the queue size
 #
 #
 ## Send status and events to M/Monit (for more informations about M/Monit 
@@ -185,31 +185,31 @@ set httpd port 2812 and
 #    group server
 #    
 check process status with pidfile /home/pi/status.pid
-  start program = "/bin/su - pi -c '/home/pi/openepg/monit/status.sh start'" with timeout 10 seconds
-  stop program  = "/bin/su - pi -c '/home/pi/openepg/monit/status.sh stop'" with timeout 10 seconds
+  start program = "/home/pi/openepg/monit/status.sh start" with timeout 10 seconds
+  stop program  = "/home/pi/openepg/monit/status.sh stop" with timeout 10 seconds
   group openepg
 
 check process importer with pidfile /home/pi/importer.pid
-  start program = "/bin/su - pi -c '/home/pi/openepg/monit/importer.sh start'" with timeout 10 seconds
-  stop program  = "/bin/su - pi -c '/home/pi/openepg/monit/importer.sh stop'" with timeout 10 seconds
+  start program = "/home/pi/openepg/monit/importer.sh start" with timeout 10 seconds
+  stop program  = "/home/pi/openepg/monit/importer.sh stop" with timeout 10 seconds
   depends on status
   group openepg
 
 check process eitupdater with pidfile /home/pi/eitupdater.pid
-  start program = "/bin/su - pi -c '/home/pi/openepg/monit/eitupdater.sh start'" with timeout 10 seconds
-  stop program  = "/bin/su - pi -c '/home/pi/openepg/monit/eitupdater.sh stop'" with timeout 10 seconds
+  start program = "/home/pi/openepg/monit/eitupdater.sh start" with timeout 10 seconds
+  stop program  = "/home/pi/openepg/monit/eitupdater.sh stop" with timeout 10 seconds
   depends on status
   group openepg
 
 check process carousel with pidfile /home/pi/carousel.pid
-  start program = "/bin/su - pi -c '/home/pi/openepg/monit/carousel.sh start'" with timeout 10 seconds
-  stop program  = "/bin/su - pi -c '/home/pi/openepg/monit/carousel.sh stop'" with timeout 10 seconds
+  start program = "/home/pi/openepg/monit/carousel.sh start" with timeout 10 seconds
+  stop program  = "/home/pi/openepg/monit/carousel.sh stop" with timeout 10 seconds
   depends on status
   group openepg
 
 check process gui with pidfile /home/pi/gui.pid
-  start program = "/bin/su - pi -c '/home/pi/openepg/monit/gui.sh start'" with timeout 10 seconds
-  stop program  = "/bin/su - pi -c '/home/pi/openepg/monit/gui.sh stop'" with timeout 10 seconds
+  start program = "/home/pi/openepg/monit/gui.sh start" with timeout 10 seconds
+  stop program  = "/home/pi/openepg/monit/gui.sh stop" with timeout 10 seconds
   depends on status
   group openepg
 
@@ -274,4 +274,4 @@ check process gui with pidfile /home/pi/gui.pid
 ## directories.
 #
    include /etc/monit/conf.d/*
-#
+

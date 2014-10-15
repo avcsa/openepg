@@ -4,7 +4,7 @@
     start)
        sleep 3;
        cd /home/pi/openepg/;
-       echo $$ > /home/pi/carouselpid;
+       echo $$ > /home/pi/carousel.pid;
        exec 2>&1 make NODE=/usr/bin/node serve_carousel 1>/home/pi/carousel.out;
        ;;
      stop)  
