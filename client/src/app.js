@@ -52,6 +52,8 @@ App.prototype.start = function(){
             Backbone.history.start();
         }
 
+        App.core.vent.trigger('app:hideloading');
+
         //new up and views and render for base app here...
         App.core.vent.trigger('app:log', 'App: Done starting and running!');
     });
@@ -77,6 +79,11 @@ App.prototype.start = function(){
             messagesHeights[i] = $('.' + App.data.messages[i]).outerHeight();
             $('.' + App.data.messages[i]).css('top', -messagesHeights[i]);
         } 
+    });
+    
+    App.core.vent.bind('app:hideloading', function() {
+        App.core.vent.trigger('app:log', 'App: Hiding loading gif');
+        $('#loading').hide();
     });
     
     App.core.vent.bind('app:showmessage', function(type, title, message) {
