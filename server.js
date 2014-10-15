@@ -1,13 +1,13 @@
-var express = require('express')
-,   http   = require('http')
-,   path   = require('path')
-,   routes = require('./routes')
-,   exphbs = require('express3-handlebars')
-,   models = require('./models')
-,   app    = express()
+var express  = require('express')
+,   http     = require('http')
+,   path     = require('path')
+,   routes   = require('./routes')
+,   exphbs   = require('express3-handlebars')
+,   app      = express()
+,   conf     = require('./conf').gui
 ;
 
-app.set('port', process.env.PORT || 3300);
+app.set('port', conf.port);
 app.set('views', __dirname + '/views');
 app.engine('handlebars', exphbs({
     defaultLayout: 'main',
