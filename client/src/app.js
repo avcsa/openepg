@@ -36,7 +36,7 @@ App.prototype.start = function(){
         });
         var server = new ServerModel({id: 1});
         server.fetch().always(function() { 
-            App.core.vent.trigger('app:log', 'App: Setting events');
+            App.core.vent.trigger('app:log', 'App: Setting server');
             App.data.server = server;
             App.core.vent.trigger('app:start'); 
         });
