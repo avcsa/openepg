@@ -129,3 +129,9 @@ serve_status:
 	cd $(CWD); \
 	node status_server.js;
 
+serve_eitupdater:
+	cd $(CWD); \
+	set -e; \
+	. ./perl-vars.sh; \
+	node eitupdater_server.js;
+
