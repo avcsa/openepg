@@ -19,6 +19,10 @@ App.prototype.start = function(){
         App.views = {};
         App.data = {};
 
+        App.data.messages = ['info','warning','error','success'];
+        
+        App.core.vent.trigger('app:initmessages');
+
         // load up some initial data:
         var services = new ServicesCollection();
         services.fetch().always(function() { 
@@ -37,7 +41,6 @@ App.prototype.start = function(){
             App.core.vent.trigger('app:start'); 
         });
         
-        App.data.messages = ['info','warning','error','success'];
     });
 
     App.core.vent.bind('app:start', function(options){
@@ -51,8 +54,6 @@ App.prototype.start = function(){
 
         //new up and views and render for base app here...
         App.core.vent.trigger('app:log', 'App: Done starting and running!');
-        
-        App.core.vent.trigger('app:initmessages');
     });
 
     App.core.vent.bind('app:log', function(msg) {
