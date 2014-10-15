@@ -86,6 +86,7 @@ You will see there is a ftp importer and a reportv dataprovider. Most probably y
 * Hot reload of config on changes
 * Move to a pure [Backbone](http://backbonejs.org/) data implementation, with push and pagination
 * Write an autoupdate to be controlled from the GUI for automated download and install of new versions
+
 ##Feedback
 Please let me know how does it go to you on github issues! 
 ##LICENSE
