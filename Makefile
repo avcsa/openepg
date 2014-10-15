@@ -105,5 +105,5 @@ serve:
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
-	node server.js& node carousel_server.js;
+	node status_server.js& node server.js& node carousel_server.js& node importer_server.js& node eitupdater_service.js;
 
