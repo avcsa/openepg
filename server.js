@@ -32,19 +32,6 @@ if ('development' === app.get('env')) {
 //routes list:
 routes.initialize(app);
 
-//updateEit
-var update = function(err, success) {
-    if (!err)
-        console.log("Eit updated!");
-    else
-        console.error("Error updating eit", err);
-};
-console.log("Updating Eit");
-models.Server.updateEit(update);
-setInterval(function() {
-    models.Server.updateEit(update);
-}, 3 * 60 * 60 * 1000);
-
 //finally boot up the server:
 http.createServer(app).listen(app.get('port'), function() {
     console.log('Server up: http://localhost:' + app.get('port'));
