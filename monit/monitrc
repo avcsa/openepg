@@ -207,7 +207,7 @@ check process carousel with pidfile /home/pi/carousel.pid
   depends on status
   group openepg
 
-check process importer with pidfile /home/pi/gui.pid
+check process gui with pidfile /home/pi/gui.pid
   start program = "/bin/su - pi -c '/home/pi/openepg/monit/gui.sh start'" with timeout 10 seconds
   stop program  = "/bin/su - pi -c '/home/pi/openepg/monit/gui.sh stop'" with timeout 10 seconds
   depends on status
