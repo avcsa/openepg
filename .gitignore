@@ -7,3 +7,7 @@ node_modules/
 build/
 perl/
 uninstall.pl
+importer/*.gz
+importer/check.json
+*.ts
+status.json
