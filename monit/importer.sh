@@ -8,7 +8,11 @@
        exec 2>&1 make NODE=/usr/bin/node serve_importer 1>/home/pi/importer.out;
        ;;
      stop)  
-       kill -9 -`cat /home/pi/importer.pid`;
+       GPID=$(cat /home/pi/importer.pid);
+       for PID in $(pstree -pn $GPID |grep -o "([[:digit:]]*)" |grep -o "[[:digit:]]*")
+       do
+           kill -9 $PID;
+       done;
        rm /home/pi/importer.pid;
        ;;
      *)  
