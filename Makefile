@@ -125,3 +125,7 @@ serve_gui:
 	. ./perl-vars.sh; \
 	node server.js;
 
+serve_status:
+	cd $(CWD); \
+	node status_server.js;
+
