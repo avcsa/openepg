@@ -1,7 +1,10 @@
-var Carousel  = require('./lib/carousel')
-,   conf = require('./conf')
-,   carousel  = new Carousel(conf)
+var Carousel = require('./lib/carousel')
+,   conf     = require('./conf')
+,   carousel = new Carousel(conf.epg)
+,   status   = require("./status_client")('carousel')
 ;
 
-console.log("Starting carousel");
-carousel.start();
+status.set('status', 'running', function() {
+    console.log("Starting carousel");
+    carousel.start();
+});
