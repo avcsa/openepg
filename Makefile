@@ -119,3 +119,9 @@ serve_importer:
 	. ./perl-vars.sh; \
 	node importer_server.js;
 
+serve_gui:
+	cd $(CWD); \
+	set -e; \
+	. ./perl-vars.sh; \
+	node server.js;
+
