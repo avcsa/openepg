@@ -107,3 +107,9 @@ serve:
 	. ./perl-vars.sh; \
 	node status_server.js& node server.js& node carousel_server.js& node importer_server.js& node eitupdater_service.js;
 
+serve_carousel:
+	cd $(CWD); \
+	set -e; \
+	. ./perl-vars.sh; \
+	node carousel_server.js;
+
