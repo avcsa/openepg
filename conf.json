@@ -1,10 +1,37 @@
 {
-    "timezone"       : "-3:00",
-    "epg_db"         : "eit.db",
-    "pid"            : 18,
-    "scheduled_hours": 24,
-    "eit_interval"   : 30,
-    "carousel_db"    : "carousel.db",
-    "ts_host"        : "239.0.0.1",
-    "ts_port"        : 1234 
+    "epg" : {
+        "timezone"        : "-3:00",
+        "epg_db"          : "eit.db",
+        "pid"             : 18,
+        "scheduled_hours" : 24,
+        "eit_interval"    : 30,
+        "carousel_db"     : "carousel.db",
+        "ts_host"         : "239.0.0.1",
+        "ts_port"         : 1234
+    },
+    "importer" : {
+        "type"           : "ftp_importer",
+        "options"        : {
+            "host"           : "your.host.com",
+            "user"           : "your.user",
+            "pass"           : "your.pass",
+            "data_provider"  : "reportv_dataprovider",
+            "import_dir"     : "./importer",
+            "interval_hours" : 1,
+            "files"          : {
+                "services" : "file1", 
+                "programs" : "file2", 
+                "scheds"   : "file3"
+            }
+        }
+    },
+    "eit_updater" : {
+        "interval_hours" : 1
+    },
+    "status" : {
+        "port" : 5004
+    },
+    "gui" : {
+        "port" : 3300
+    }
 }
