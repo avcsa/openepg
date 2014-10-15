@@ -16,9 +16,12 @@ module.exports = Controller = Marionette.Controller.extend({
 
     home: function() {
         App.core.vent.trigger('app:log', 'Controller: "Home" route hit.');
-        var view = new HomeView({model: window.App.data.server});
-        this.renderView(view);
-        window.App.router.navigate('#');
+        var self = this;
+        window.App.data.server.fetch().always(function() {
+            var view = new HomeView({model: window.App.data.server});
+            self.renderView(view);
+            window.App.router.navigate('#');
+        });
     },
 
     listServices: function() {
