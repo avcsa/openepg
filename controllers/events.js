@@ -5,7 +5,7 @@ var models = require('../models')
 
 module.exports = {
     index: function(req, res) {
-        models.Event.find({}, function(err, data) {
+        models.Event.find(req.query, function(err, data) {
             res.json(_.map(data, module.exports.transform));
         });
     },
