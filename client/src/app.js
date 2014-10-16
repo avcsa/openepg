@@ -86,6 +86,11 @@ App.prototype.start = function(){
         $('#loading').hide();
     });
     
+    App.core.vent.bind('app:showloading', function() {
+        App.core.vent.trigger('app:log', 'App: Showing loading gif');
+        $('#loading').show();
+    });
+    
     App.core.vent.bind('app:showmessage', function(type, title, message) {
         App.core.vent.trigger('app:log', 'App: Showing ' + type + ' message');
         App.core.vent.trigger('app:hidemessages');
