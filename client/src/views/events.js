@@ -27,12 +27,14 @@ var ServicesView = Marionette.CompositeView.extend({
         this.model = this.collection.get(id);
         this.$el.find("#events").html("");
         var events = this.eventsCol;
+        window.App.core.vent.trigger('app:showloading');
         var self = this;
         events.fetch({data: {serviceId: this.model.id}}).always(function() {
             if (events) {
                 self.subView = new EventsView({collection: events});
                 self.subView.render().$el.appendTo(self.$el.find("#events"));
             }
+            window.App.core.vent.trigger('app:hideloading');
         });
     }
 });
@@ -57,7 +59,10 @@ var EventsView = Marionette.CompositeView.extend({
     template: require('../../templates/events_table.hbs'),
     className: "EpgTable",
     itemViewContainer: "tbody",
-    itemView: itemView
+    itemView: itemView,
+    initialize: function() {
+        console.log("col", this.collection);
+    }
 });
 
 module.exports =  ServicesView;
