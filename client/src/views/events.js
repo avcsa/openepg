@@ -26,11 +26,14 @@ var ServicesView = Marionette.CompositeView.extend({
         var id = this.$el.find('#service').val();
         this.model = this.collection.get(id);
         this.$el.find("#events").html("");
-        var events = this.eventsCol.where({serviceId: this.model.id});
-        if (events) {
-            this.subView = new EventsView({collection: new Backbone.Collection(events)});
-            this.subView.render().$el.appendTo(this.$el.find("#events"));
-        }
+        var events = this.eventsCol;
+        var self = this;
+        events.fetch({data: {serviceId: this.model.id}}).always(function() {
+            if (events) {
+                self.subView = new EventsView({collection: events});
+                self.subView.render().$el.appendTo(self.$el.find("#events"));
+            }
+        });
     }
 });
 
