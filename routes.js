@@ -7,7 +7,6 @@ module.exports.initialize = function(app) {
     app.get('/', home.index);
     app.get('/server', home.get);
     app.get('/server/:id', home.get);
-//    app.post('/server', home.updateEit);
     app.put('/server/:id', home.updateEit);
     app.get('/api/services', services.index);
     app.get('/api/services/:id', services.getById);
