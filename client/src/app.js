@@ -29,11 +29,7 @@ App.prototype.start = function(){
             App.core.vent.trigger('app:log', 'App: Setting services');
             App.data.services = services;
         });
-        var events = new EventsCollection();
-        events.fetch().always(function() { 
-            App.core.vent.trigger('app:log', 'App: Setting events');
-            App.data.events = events;
-        });
+        App.data.events = new EventsCollection();
         var server = new ServerModel({id: 1});
         server.fetch().always(function() { 
             App.core.vent.trigger('app:log', 'App: Setting server');
