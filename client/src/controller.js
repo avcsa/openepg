@@ -11,7 +11,6 @@ var Marionette         = require('backbone.marionette')
 module.exports = Controller = Marionette.Controller.extend({
     initialize: function() {
         App.core.vent.trigger('app:log', 'Controller: Initializing');
-        window.App.views.servicesView = new ServicesView({ collection: window.App.data.services });
     },
 
     home: function() {
@@ -26,9 +25,13 @@ module.exports = Controller = Marionette.Controller.extend({
 
     listServices: function() {
         App.core.vent.trigger('app:log', 'Controller: "List Services" route hit.');
-        var view = window.App.views.servicesView;
-        this.renderView(view);
-        window.App.router.navigate('#listServices');
+        var self = this;
+        window.App.data.services.fetch().always(function() { 
+            App.core.vent.trigger('app:log', 'App: Fetching services');
+            var view = new ServicesView({ collection: window.App.data.services });
+            self.renderView(view);
+            window.App.router.navigate('#listServices');
+        });
     },
 
     serviceDetails: function(id) {
