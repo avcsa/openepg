@@ -51,3 +51,18 @@
        background-position: -80px 0;
     }
 }   
+
+.loading {
+    color:#555;
+    border-radius:10px;
+    font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+    padding:10px 10px;
+    margin:10px;
+    width: 128px;
+    height: 128px;
+    background:#ffffff url('../img/loading.gif') no-repeat 10px 10px;
+    border:3px solid #a6ca8a;
+    position: absolute; 
+    left: 43%;
+    top: 50%;
+}
