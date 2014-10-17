@@ -1,6 +1,5 @@
 {
     "epg" : {
-        "timezone"        : "-3:00",
         "epg_db"          : "eit.db",
         "pid"             : 18,
         "scheduled_hours" : 24,
@@ -18,6 +17,7 @@
             "data_provider"  : "reportv_dataprovider",
             "import_dir"     : "./importer",
             "interval_hours" : 1,
+            "timezone"       : "-3:00",
             "files"          : {
                 "services" : "file1", 
                 "programs" : "file2", 
