@@ -9,7 +9,7 @@ var EventEmitter = require('events').EventEmitter
 
 function ftp_importer(options) {
     this.options = options;
-    this.dataProvider = require('./' + this.options.data_provider)(this.options.import_dir, this.options.files);
+    this.dataProvider = require('./' + this.options.data_provider)(this.options.import_dir, this.options.files, this.options.timezone);
     this.files = [this.options.files.services, this.options.files.programs, this.options.files.scheds];
     this.ftpOptions = {
         host: this.options.host,

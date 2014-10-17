@@ -5,10 +5,27 @@ var fs       = require('fs')
 ,   _        = require('underscore')
 ;
 
-function data_provider(importDir, files) {
+function data_provider(importDir, files, timezone) {
     this.importDir = importDir;
     this.files     = files;
+    this._processTimezone(timezone);
 }
+
+data_provider.prototype._processTimezone = function(timezone) {
+    if (!timezone) 
+        return;
+    var tmp = timezone.split(":");
+    var hours = parseInt(tmp[0]);
+    if (hours < 0) {
+        hours = hours * -1;
+        this.positiveTimezone = false;
+    } else {
+        this.positiveTimezone = true;
+    }
+    var minutes = parseInt(tmp[1]);
+    var tz = moment.duration({hours: hours, minutes: minutes});
+    this.timezone =  tz;
+};
 
 data_provider.prototype.init = function() {
     this._resetTables();
@@ -96,6 +113,12 @@ data_provider.prototype._processSched = function(data) {
 data_provider.prototype._generateEvent = function(sched) {
     var event = {};
     event.start = moment(sched.date + ' ' + sched.time, "YYYYMMDD HHmm");
+    if (this.timezone) {
+        if (this.positiveTimezone)
+            event.start = event.start.add(this.timezone);
+        else
+            event.start = event.start.subtract(this.timezone);
+    }
     event.duration = moment.duration(
             {
                 hours: parseInt(sched.duration.substring(0, 2)), 
@@ -141,6 +164,6 @@ data_provider.prototype._generateEvent = function(sched) {
     return event;
 };
 
-exports = module.exports = function(importDir, files) {
-    return new data_provider(importDir, files);
+exports = module.exports = function(importDir, files, timezone) {
+    return new data_provider(importDir, files, timezone);
 };
