@@ -26,7 +26,7 @@
         }
     },
     "eit_updater" : {
-        "interval_hours" : 1
+        "interval_hours" : 0.08
     },
     "status" : {
         "port" : 5004
