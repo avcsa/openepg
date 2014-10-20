@@ -9,7 +9,7 @@ var _        = require('underscore')
 
 importer.on("error", function(err) {
     console.error("Error importing data", err);
-    status.set('status', 'error');
+//    status.set('status', 'error');
 });
 importer.on("services", function(services) {
     console.log("Received services from importer");
