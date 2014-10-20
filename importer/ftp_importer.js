@@ -15,6 +15,7 @@ function ftp_importer(options) {
         user: this.options.user,
         pass: this.options.pass
     };
+    this.checkingFiles = false;
 }
 
 util.inherits(ftp_importer, EventEmitter);
@@ -32,6 +33,7 @@ ftp_importer.prototype._run = function() {
     var self = this;
     ftp.on('error', function(err) {
         self.emit('error', err);
+        self._checkFiles();
     });
 //    ftp.setDebugMode(true);
 //    ftp.on('jsftp_debug', function(type, data) {
@@ -42,14 +44,13 @@ ftp_importer.prototype._run = function() {
         var file = self.files[i];
         console.log('Getting ' + file);
         ftp.get(file, self.options.import_dir + "/" + file, function(err) {
-            if (err) {
+            if (err) 
                 self.emit('error', err);
-            } else {
-                if (i !== (self.files.length - 1)) 
-                    get(i++);
-                else
-                    self._checkFiles();
-            }
+
+            if (i !== (self.files.length - 1)) 
+                get(i++);
+            else
+                self._checkFiles();
         });
     };
     get();
@@ -57,6 +58,11 @@ ftp_importer.prototype._run = function() {
 
 ftp_importer.prototype._checkFiles = function() {
     console.log("Checking files version");
+    if (this.checkingFiles) {
+        console.log("Already checking, returning...");
+        return;
+    }
+    this.checkingFiles = true;
     var configFile = this.options.import_dir + '/check.json';
     var data = {files: []};
     var newData =[];
@@ -91,6 +97,7 @@ ftp_importer.prototype._checkFiles = function() {
             } else {
                 console.log("Writing checksums to file", newData);
                 fs.writeFileSync(self.options.import_dir + '/check.json', JSON.stringify({files: newData}, null, 4));
+                self.checkingFiles = false;
                 if (filesToProcess.length) {
                     self._processFiles(filesToProcess);
                 } else {
