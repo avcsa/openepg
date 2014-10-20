@@ -116,7 +116,7 @@ ftp_importer.prototype._processFiles = function(filesToProcess) {
             if (result.emit)
                 self.emit(result.type, result.data);
             
-            if (i !== (self.files.length - 1)) 
+            if (i !== (filesToProcess.length - 1)) 
                 process(i++);
             else 
                 self.emit('done');
