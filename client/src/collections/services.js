@@ -4,5 +4,8 @@ var Backbone     = require('backbone')
 
 module.exports = ServiceCollection = Backbone.Collection.extend({
     model:  ServiceModel,
-    url: '/api/services'
+    url: '/api/services',
+    comparator: function(col) {
+        return (col.get('comment'));
+    }
 });
