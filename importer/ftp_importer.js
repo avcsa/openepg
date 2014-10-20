@@ -4,7 +4,6 @@ var EventEmitter = require('events').EventEmitter
 ,   _            = require('underscore')
 ,   fs           = require('fs')
 ,   crypto       = require('crypto')
-//,   iconvlite    = require('iconv-lite')
 ;
 
 function ftp_importer(options) {
