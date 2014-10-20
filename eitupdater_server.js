@@ -6,12 +6,17 @@ var Epg  = require('./lib/epg')
 ;
 
 var interval = conf.eit_updater.interval_hours * (60 * 60 * 1000);
+var retry_interval = conf.eit_updater.retry_interval_minutes * (60 * 1000);
 
 var update = function() {
     status.getStatus(function(st) {
         if (st.importer.status === 'running') {
-            status.set('status', 'waiting lock');
-            setTimeout(update, 500);
+            if (retry_interval) {
+                status.set('status', 'waiting lock');
+                setTimeout(update, retry_interval);
+            } else {
+                status.set('status', 'skipped');
+            }
         } else {
             status.set('status', 'running');
             var ret = epg.updateEit();
