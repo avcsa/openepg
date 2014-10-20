@@ -1,8 +1,9 @@
-var fs       = require('fs')
-,   zlib     = require('zlib')
-,   readline = require('readline')
-,   moment   = require('moment')
-,   _        = require('underscore')
+var fs        = require('fs')
+,   zlib      = require('zlib')
+,   readline  = require('readline')
+,   moment    = require('moment')
+,   _         = require('underscore')
+,   iconvlite = require('iconv-lite')
 ;
 
 function data_provider(importDir, files, timezone) {
@@ -42,7 +43,7 @@ data_provider.prototype.processFile = function(file, callback) {
     var gzip = zlib.createGunzip();
     var inp = fs.createReadStream(self.importDir + "/" + file);
     console.log("Unzipping", file);
-    var out = inp.pipe(gzip)//.pipe(iconvlite.decodeStream('CP1250'))
+    var out = inp.pipe(gzip).pipe(iconvlite.decodeStream('cp865'))
             .on('end', function() {
                 rl.close();
                 console.log("End processing", file);
