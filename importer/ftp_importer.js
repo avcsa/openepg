@@ -33,6 +33,10 @@ ftp_importer.prototype._run = function() {
     ftp.on('error', function(err) {
         self.emit('error', err);
     });
+//    ftp.setDebugMode(true);
+//    ftp.on('jsftp_debug', function(type, data) {
+//        console.log('debug', type, data);
+//    });
     var i = 0;
     var get = function() {
         var file = self.files[i];
