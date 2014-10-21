@@ -1,11 +1,12 @@
 #!/bin/bash
+NOWT=$(date +"%Y%m%d%H%M%S")
 
  case $1 in
     start)
        sleep 3;
        cd /home/pi/openepg/;
        echo $$ > /home/pi/eitupdater.pid;
-       exec 2>&1 make NODE=/usr/bin/node serve_eitupdater 1>/home/pi/eitupdater.out;
+       exec 2>&1 make NODE=/usr/bin/node serve_eitupdater 1>/home/pi/eitupdater-$NOWT.out;
        ;;
      stop)  
        GPID=$(cat /home/pi/eitupdater.pid);

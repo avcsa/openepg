@@ -1,11 +1,12 @@
 #!/bin/bash
+NOWT=$(date +"%Y%m%d%H%M%S")
 
  case $1 in
     start)
        sleep 3;
        cd /home/pi/openepg/;
        echo $$ > /home/pi/importer.pid;
-       exec 2>&1 make NODE=/usr/bin/node serve_importer 1>/home/pi/importer.out;
+       exec 2>&1 make NODE=/usr/bin/node serve_importer 1>/home/pi/importer-$NOWT.out;
        ;;
      stop)  
        GPID=$(cat /home/pi/importer.pid);

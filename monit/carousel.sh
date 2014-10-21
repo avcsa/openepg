@@ -1,11 +1,12 @@
 #!/bin/bash
+NOWT=$(date +"%Y%m%d%H%M%S")
 
  case $1 in
     start)
        sleep 3;
        cd /home/pi/openepg/;
        echo $$ > /home/pi/carousel.pid;
-       exec 2>&1 make NODE=/usr/bin/node serve_carousel 1>/home/pi/carousel.out;
+       exec 2>&1 make NODE=/usr/bin/node serve_carousel 1>/home/pi/carousel-$NOWT.out;
        ;;
      stop)  
        GPID=$(cat /home/pi/carousel.pid);
