@@ -1,4 +1,5 @@
 CWD=$(shell pwd)
+NODE?=$(shell which node)
 
 .PHONY: test
 
@@ -105,33 +106,33 @@ serve:
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
-	node status_server.js& node server.js& node carousel_server.js& node importer_server.js& node eitupdater_service.js;
+	$(NODE) status_server.js& node server.js& node carousel_server.js& node importer_server.js& node eitupdater_service.js;
 
 serve_carousel:
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
-	node carousel_server.js;
+	$(NODE) carousel_server.js;
 
 serve_importer:
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
-	node importer_server.js;
+	$(NODE) importer_server.js;
 
 serve_gui:
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
-	node server.js;
+	$(NODE) server.js;
 
 serve_status:
 	cd $(CWD); \
-	node status_server.js;
+	$(NODE) status_server.js;
 
 serve_eitupdater:
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
-	node eitupdater_server.js;
+	$(NODE) eitupdater_server.js;
 
