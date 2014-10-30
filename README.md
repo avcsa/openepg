@@ -5,6 +5,7 @@ Open Source EPG generator for DVB Multiplexers
 
 openepg is a lightweight [node.js](http://nodejs.org/) program built around [cherryepg](http://epg.cherryhill.eu/), a perl library for generating a MPEG-TS stream with EIT (Event Information Table) data, ment to be run on a [Raspberry Pi](http://www.raspberrypi.org/).
 It depends on [node-perl](https://github.com/tokuhirom/node-perl) to be able to use the library.
+UI was built using tutorial from [Krol(){tech}](http://kroltech.com/2013/12/boilerplate-web-app-using-backbone-js-expressjs-node-js-mongodb/)
 
 ##Dependencies
 ###Perl (on Debian Wheezy)
@@ -15,6 +16,15 @@ sudo apt-get install perl libperl-dev
 ```shell
 sudo apt-get install perl libdbi-perl
 sudo ln -s /usr/lib/libperl.so.5.14 /usr/lib/libperl.so
+```
+###Node.js (on Debian Wheezy)
+```shell
+sudo apt-get install nodejs
+```
+###Node.js (on Raspbian)
+```shell
+wget http://node-arm.herokuapp.com/node_latest_armhf.deb
+sudo dpkg -i node_latest_armhf.deb
 ```
 ##Install
 ###Download
@@ -75,7 +85,13 @@ make build-dev
 make serve_gui
 ```
 ##Monit
-Inside the 'monit' folder you will find a series of bash scripts along with a monitrc file to use with [Monit](http://mmonit.com/monit/).
+Inside the 'monit' folder you will find a series of bash scripts along with a monitrc file to use with [Monit](http://mmonit.com/monit/).  Take them as examples and modify to suit your enviroment.  
+For making monit run at startup and start OpenEPG and shut it down on system shutdown, you cand add this lines to /etc/inittab (modify to suit your enviroment):
+```shell
+mo:2345:respawn:su - pi -c '/usr/bin/monit -Ic /home/pi/openepg/monit/monitrc'
+mon:2345:wait:su - pi -c '/usr/bin/monit -Ic /home/pi/openepg/monit/monitrc start all'
+moff:06:wait:su - pi -c '/usr/bin/monit -Ic /home/pi/openepg/monit/monitrc stop all'
+```
 ##Configuration
 All configuration options are inside conf.json file.
 ##Importer
