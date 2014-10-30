@@ -73,6 +73,9 @@ data_provider.prototype._processService = function(data) {
     var service = {};
     service.serviceId = parseInt(data[0]);
     service.comment   = data[2];
+    service.originalNetworkId = service.serviceId;
+    service.transportStreamId = service.serviceId;
+    service.signalId = service.serviceId;
     this.services.push(service);
 };
 
