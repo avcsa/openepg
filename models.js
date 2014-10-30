@@ -1,6 +1,6 @@
 var Epg    = require('./lib/epg')
 ,   conf   = require('./conf')
-,   epg    = new Epg(conf)
+,   epg    = new Epg(conf.epg)
 ,   _      = require('underscore')
 ,   moment = require('moment')
 ,   status = require("./status_client")('gui')
@@ -50,15 +50,13 @@ var Service = {
 //        }
         callback(new Error("UPDATE NOT IMPLEMENTED"));
     },
-    "remove": function(signalId, callback) {
+    "enable": function(serviceId, callback) {
         try {
-            var cant = epg.deleteServices({signalId: signalId});
-            if (cant === 0)
-                callback(new Error('No service deleted'));
-            else
-                callback();
+            epg.enableDisableService(serviceId);
+            var service = _.findWhere(epg.listServices(), {serviceId: parseInt(serviceId)});
+            callback(undefined, service);
         } catch(e) {
-            console.error("Error removing service", e.message);
+            console.error("Error enabling/disabling service", e.message);
             callback(e);
         }
     }

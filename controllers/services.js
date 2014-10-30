@@ -34,18 +34,12 @@ module.exports = {
             }
         });
     },
-    delete: function(req, res) {
-        models.Service.find({"serviceId": req.params.id}, function(err, service) {
-            if (err) {
-                res.json(400, {error: err.message});
-            } else {
-                models.Service.remove(service.signalId, function(err1) {
-                    if (err1)
-                        res.json(400, {error: err1.message});
-                    else
-                        res.json(service);
-                });
-            }
+    enable: function(req, res) {
+        models.Service.enable(req.params.id, function(err1, result) {
+            if (err1)
+                res.json(400, {error: err1.message});
+            else
+                res.json(result);
         });
     }
 };
