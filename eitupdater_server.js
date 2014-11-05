@@ -27,13 +27,21 @@ var update = function() {
             }
         } else {
             console.log("Updating EIT");
+            profiler.printMemoryUsage(profile);
             status.set('status', 'running');
             var ret = epg.updateEit();
             console.log("Eit updated!");
-            if (ret) {
+            profiler.printMemoryUsage(profile);
+            if (ret || forceCarousel) {
                 epg.updateCarousel();
                 console.log("Carousel updated!");
+                profiler.printMemoryUsage(profile);
             }
+            process.nextTick(function() {
+                console.log("Forcing gc");
+                global.gc();
+                profiler.printMemoryUsage(profile);
+            });
             status.set('status', 'idle');
             status.set('lastRun', moment().toISOString());
             status.set('nextRun', moment().add(interval, 'ms').toISOString());
