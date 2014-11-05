@@ -1,7 +1,6 @@
-var Epg  = require('./lib/epg')
-,   conf = require('./conf')
-,   epg  = new Epg(conf.epg)
-,   moment = require('moment')
+var conf     = require('./conf')
+,   epg      = require('./lib/epg')(conf.epg)
+,   moment   = require('moment')
 ,   status   = require("./status_client")('eitUpdate')
 ;
 
