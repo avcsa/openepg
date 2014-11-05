@@ -10,13 +10,17 @@ var retry_interval = conf.eit_updater.retry_interval_minutes * (60 * 1000);
 var update = function() {
     status.getStatus(function(st) {
         if (st.importer.status === 'running') {
+            console.log("Importer running...");
             if (retry_interval) {
+                console.log("Retrying in", retry_interval);
                 status.set('status', 'waiting lock');
                 setTimeout(update, retry_interval);
             } else {
+                console.log("Skipping");
                 status.set('status', 'skipped');
             }
         } else {
+            console.log("Updating EIT");
             status.set('status', 'running');
             var ret = epg.updateEit();
             console.log("Eit updated!");
