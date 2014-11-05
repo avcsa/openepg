@@ -2,9 +2,15 @@ var conf     = require('./conf')
 ,   epg      = require('./lib/epg')(conf.epg)
 ,   moment   = require('moment')
 ,   status   = require("./status_client")('eitUpdate')
+,   profiler = require('./profiler')()
 ;
 
+var profile = conf.eit_updater.profile;
+var forceCarousel = conf.eit_updater.forceCarousel;
+
 var interval = conf.eit_updater.interval_hours * (60 * 60 * 1000);
+if (profile && conf.eit_updater.profiler_interval)
+    interval = conf.eit_updater.profiler_interval;
 var retry_interval = conf.eit_updater.retry_interval_minutes * (60 * 1000);
 
 var update = function() {
