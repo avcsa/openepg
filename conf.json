@@ -27,7 +27,10 @@
     },
     "eit_updater" : {
         "interval_hours"         : 0.08,
-        "retry_interval_minutes" : 0
+        "retry_interval_minutes" : 0,
+        "profile"                : false,
+        "forceCarousel"          : false, 
+        "profiler_interval"      : 0
     },
     "status" : {
         "port" : 5004
