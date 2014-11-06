@@ -28,6 +28,7 @@ var update = function() {
         } else {
             console.log("Updating EIT");
             profiler.printMemoryUsage(profile);
+            profiler.initHeapDiff(profile);
             status.set('status', 'running');
             var ret = epg.updateEit();
             console.log("Eit updated!");
@@ -39,7 +40,7 @@ var update = function() {
             }
             process.nextTick(function() {
                 console.log("Forcing gc");
-                global.gc();
+                profiler.finishHeapDiff();
                 profiler.printMemoryUsage(profile);
             });
             status.set('status', 'idle');
@@ -49,6 +50,7 @@ var update = function() {
     });
 };
 status.set('status', 'running', function() {
+    profiler.init(profile);
     console.log("Running initial update...");
     update();
     setInterval(update, interval);
