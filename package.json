@@ -28,7 +28,8 @@
         "express3-handlebars": "~0.5.0",
         "jsftp"              : "latest",
         "iconv-lite"         : "latest",
-        "dnode"              : "latest"
+        "dnode"              : "latest",
+        "memwatch"           : "latest"
     },
     "devDependencies": {
         "grunt-cli"                 : "latest", 

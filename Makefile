@@ -134,5 +134,5 @@ serve_eitupdater:
 	cd $(CWD); \
 	set -e; \
 	. ./perl-vars.sh; \
-	$(NODE) --expose-gc eitupdater_server.js;
+	$(NODE) eitupdater_server.js;
 
