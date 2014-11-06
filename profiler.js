@@ -1,7 +1,21 @@
-var util = require('util');
+var util     = require('util')
+,   memwatch = require('memwatch')
+;
 
 function profiler() {
     this.intervalPid = false;
+    this.heapDiff    = false;
+};
+
+profiler.prototype.init = function(profile) {
+    if (profile) {
+        memwatch.on('leak', function(info) {
+            console.log("Leak info", info);
+        });
+        memwatch.on('stats', function(info) {
+            console.log("Mem stats", info);
+        });
+    }
 };
 
 profiler.prototype.getMemoryUsage = function() {
@@ -25,6 +39,19 @@ profiler.prototype.initInterval = function(doProfile) {
 profiler.prototype.cancelInterval = function() {
     if (this.intervalPid)
         clearInterval(this.intervalPid);
+};
+
+profiler.prototype.initHeapDiff = function(doProfile) {
+    if (doProfile)
+        this.heapDiff = new memwatch.HeapDiff();
+};
+
+profiler.prototype.finishHeapDiff = function() {
+    if (this.heapDiff) {
+        var diff = this.heapDiff.end();
+        console.log("Heap Diff", JSON.stringify(diff, null, 4));
+        this.heapDiff = false;
+    }
 };
 
 exports = module.exports = function() {
