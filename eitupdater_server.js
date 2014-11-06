@@ -49,7 +49,7 @@ var update = function() {
     });
 };
 status.set('status', 'running', function() {
-    console.log("Updating Eit");
+    console.log("Running initial update...");
     update();
     setInterval(update, interval);
 });
