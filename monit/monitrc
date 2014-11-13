@@ -16,8 +16,8 @@
 ##
 ## Start Monit in the background (run as a daemon):
 #
-set daemon 1            # check services at 2-minute intervals
-  with start delay 60    # optional: delay the first check by 4-minutes (by 
+set daemon 60            # check services at 1-minute intervals
+  with start delay 60    # optional: delay the first check by 1-minutes (by 
 #                           # default Monit check immediately after Monit start)
 #
 #
@@ -192,14 +192,14 @@ check process status with pidfile /home/pi/status.pid
 check process importer with pidfile /home/pi/importer.pid
   start program = "/home/pi/openepg/monit/importer.sh start" with timeout 10 seconds
   stop program  = "/home/pi/openepg/monit/importer.sh stop" with timeout 10 seconds
-  if totalmem > 50% for 2700 cycles then restart
+  if totalmem > 50% for 45 cycles then restart
   depends on status
   group openepg
 
 check process eitupdater with pidfile /home/pi/eitupdater.pid
   start program = "/home/pi/openepg/monit/eitupdater.sh start" with timeout 10 seconds
   stop program  = "/home/pi/openepg/monit/eitupdater.sh stop" with timeout 10 seconds
-  if totalmem > 20% for 240 cycles then restart
+  if totalmem > 20% for 4 cycles then restart
   depends on status
   group openepg
 
