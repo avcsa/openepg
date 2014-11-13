@@ -192,12 +192,14 @@ check process status with pidfile /home/pi/status.pid
 check process importer with pidfile /home/pi/importer.pid
   start program = "/home/pi/openepg/monit/importer.sh start" with timeout 10 seconds
   stop program  = "/home/pi/openepg/monit/importer.sh stop" with timeout 10 seconds
+  if totalmem > 50% MB for 2700 cycles then restart
   depends on status
   group openepg
 
 check process eitupdater with pidfile /home/pi/eitupdater.pid
   start program = "/home/pi/openepg/monit/eitupdater.sh start" with timeout 10 seconds
   stop program  = "/home/pi/openepg/monit/eitupdater.sh stop" with timeout 10 seconds
+  if totalmem > 20% for 240 cycles then restart
   depends on status
   group openepg
 
