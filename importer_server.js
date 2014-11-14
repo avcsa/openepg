@@ -25,6 +25,13 @@ importer.on("events", function(events) {
         epg.updateCarousel();
     }
     importer.importFinished();
+    var mem = process.memoryUsage();
+    var memMB = mem.rss / 1048576;
+    console.log("Memory used:", memMB, "MB");
+    if (memMB > conf.importer.max_memory_mb) {
+        console.log("Exceeded limit of", conf.importer.max_memory_mb, "MB, exiting...");
+        process.exit();
+    }
 });
 importer.on("run", function() {
     console.log("Starting import");
