@@ -23,7 +23,8 @@ importer.on("events", function(events) {
     if (ret) {
         console.log("EIT updated, updating Carousel");
         epg.updateCarousel();
-    }        
+    }
+    importer.importFinished();
 });
 importer.on("run", function() {
     console.log("Starting import");
