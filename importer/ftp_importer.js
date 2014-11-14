@@ -16,6 +16,7 @@ function ftp_importer(options) {
         pass: this.options.pass
     };
     this.checkingFiles = false;
+    this.newChecksums = false;
 }
 
 util.inherits(ftp_importer, EventEmitter);
@@ -95,8 +96,9 @@ ftp_importer.prototype._checkFiles = function() {
             if (i !== (self.files.length - 1)) {
                 check(i++);
             } else {
-                console.log("Writing checksums to file", newData);
-                fs.writeFileSync(self.options.import_dir + '/check.json', JSON.stringify({files: newData}, null, 4));
+//                console.log("Writing checksums to file", newData);
+//                fs.writeFileSync(self.options.import_dir + '/check.json', JSON.stringify({files: newData}, null, 4));
+                self.newChecksums = newData;
                 self.checkingFiles = false;
                 if (filesToProcess.length) {
                     self._processFiles(self.files);
@@ -131,6 +133,11 @@ ftp_importer.prototype._processFiles = function(filesToProcess) {
     };
     process();
 };
+
+ftp_importer.prototype.importFinished = function() {
+    console.log("Import finished, writing checksums to file", this.newChecksums);
+    fs.writeFileSync(this.options.import_dir + '/check.json', JSON.stringify({files: this.newChecksums}, null, 4));
+},
 
 exports = module.exports = function(options) {
     return new ftp_importer(options);
