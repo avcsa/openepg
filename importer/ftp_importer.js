@@ -99,7 +99,7 @@ ftp_importer.prototype._checkFiles = function() {
                 fs.writeFileSync(self.options.import_dir + '/check.json', JSON.stringify({files: newData}, null, 4));
                 self.checkingFiles = false;
                 if (filesToProcess.length) {
-                    self._processFiles(filesToProcess);
+                    self._processFiles(self.files);
                 } else {
                     console.log("Everything uptodate");
                     self.emit('done');
