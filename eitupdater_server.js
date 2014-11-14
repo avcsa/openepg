@@ -13,7 +13,7 @@ if (profile && conf.eit_updater.profiler_interval)
     interval = conf.eit_updater.profiler_interval;
 var retry_interval = conf.eit_updater.retry_interval_minutes * (60 * 1000);
 
-var update = function() {
+var update = function(firstRun) {
     status.getStatus(function(st) {
         if (st.importer.status === 'running') {
             console.log("Importer running...");
@@ -26,6 +26,15 @@ var update = function() {
                 status.set('status', 'skipped');
             }
         } else {
+            if (!firstRun) {
+                var mem = process.memoryUsage();
+                var memMB = mem.rss / 1048576;
+                console.log("Memory used:", memMB, "MB");
+                if (memMB > conf.eit_updater.max_memory_mb) {
+                    console.log("Exceeded limit of", conf.eit_updater.max_memory_mb, "MB, exiting...");
+                    process.exit();
+                }
+            }
             console.log("Updating EIT");
             profiler.printMemoryUsage(profile);
             profiler.initHeapDiff(profile);
@@ -52,7 +61,7 @@ var update = function() {
 status.set('status', 'running', function() {
     profiler.init(profile);
     console.log("Running initial update...");
-    update();
+    update(true);
     setInterval(update, interval);
 });
 
