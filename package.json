@@ -1,7 +1,7 @@
 {
     "name": "openepg",
     "description": "Open Source EPG generator for DVB Multiplexers",
-    "version": "0.0.1",
+    "version": "0.1.2",
     "author": "Juan Martin Runge <jmrunge@gmail.com>",
     "contributors": [],
     "scripts": {
