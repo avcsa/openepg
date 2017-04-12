@@ -34,7 +34,7 @@ perl/DBD-SQLite-1.42:
 	set -e; \
 	. ./perl-vars.sh; \
 	cd $(CWD)/perl/; \
-	curl -L http://search.cpan.org/CPAN/authors/id/I/IS/ISHIGAKI/DBD-SQLite-1.42.tar.gz -s -o DBD-SQLite-1.42.tar.gz; \
+	curl -L http://pkgs.fedoraproject.org/repo/pkgs/perl-DBD-SQLite/DBD-SQLite-1.42.tar.gz/86cfaf477cb9ddc39508f74f4268fc79/DBD-SQLite-1.42.tar.gz -s -o DBD-SQLite-1.42.tar.gz; \
 	tar xvzf DBD-SQLite-1.42.tar.gz; \
 	cd $(CWD)/perl/DBD-SQLite-1.42/; \
 	perl Makefile.PL INSTALL_BASE=$(CWD)/perl/lib/; \
