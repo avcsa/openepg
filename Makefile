@@ -47,7 +47,7 @@ perl/DVB-Carousel-0.22:
 	set -e; \
 	. ./perl-vars.sh; \
 	cd $(CWD)/perl/; \
-	curl -L http://search.cpan.org/CPAN/authors/id/N/NA/NABOJ/DVB-Carousel-0.22.tar.gz -s -o DVB-Carousel-0.22.tar.gz; \
+	curl -L http://mirror.nus.edu.sg/CPAN/modules/by-module/DVB/DVB-Carousel-0.22.tar.gz -s -o DVB-Carousel-0.22.tar.gz; \
 	tar xvzf DVB-Carousel-0.22.tar.gz; \
 	cd $(CWD)/perl/DVB-Carousel-0.22/; \
 	perl Makefile.PL INSTALL_BASE=$(CWD)/perl/lib/; \
@@ -60,7 +60,7 @@ perl/DVB-Epg-0.51:
 	set -e; \
 	. ./perl-vars.sh; \
 	cd $(CWD)/perl/; \
-	curl -L http://search.cpan.org/CPAN/authors/id/N/NA/NABOJ/DVB-Epg-0.51.tar.gz -s -o DVB-Epg-0.51.tar.gz; \
+	curl -L http://mirror.nus.edu.sg/CPAN/modules/by-module/DVB/DVB-Epg-0.51.tar.gz -s -o DVB-Epg-0.51.tar.gz; \
 	tar xvzf DVB-Epg-0.51.tar.gz; \
 	cd $(CWD)/perl/DVB-Epg-0.51/; \
 	perl Makefile.PL INSTALL_BASE=$(CWD)/perl/lib/; \
